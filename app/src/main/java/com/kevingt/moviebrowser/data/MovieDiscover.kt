@@ -8,10 +8,13 @@ data class Movie(
     val poster_path: String,
     val backdrop_path: String,
     val release_date: String,
-    val genre_ids: List<Int>)
+    val genre_ids: List<Int>,
+    val genres: List<Genre>)
 
 data class Discover(
     val page: Int,
     val total_results: Int,
     val total_pages: Int,
     val results: List<Movie>)
+
+data class Genre(val id: Int, val name: String)

@@ -11,7 +11,7 @@ class MainActivity : BaseActivity(), DiscoverFragment.Listener, MovieFragment.Li
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun initView(savedInstanceState: Bundle?) {
-
+        addFragment(R.id.main_container, DiscoverFragment.newInstance())
     }
 
 }

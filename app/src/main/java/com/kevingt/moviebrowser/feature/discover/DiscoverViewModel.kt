@@ -1,10 +1,31 @@
 package com.kevingt.moviebrowser.feature.discover
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import com.kevingt.moviebrowser.base.BaseViewModel
+import com.kevingt.moviebrowser.data.Movie
+import com.kevingt.moviebrowser.util.default
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class DiscoverViewModel : ViewModel() {
+class DiscoverViewModel : BaseViewModel() {
 
-    var data: MutableLiveData<String> = MutableLiveData()
+    val dataPerPage = MutableLiveData<List<Movie>>().default(listOf())
+    val isLoading = MutableLiveData<Boolean>().default(true)
+    val isLastPage = MutableLiveData<Boolean>().default(false)
+    private var page = 1
+
+    fun discoverMovie() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = apiManager.discoverMovie(page).await()
+            withContext(Dispatchers.Main) {
+                page = result.page
+                if (page == result.total_pages) isLastPage.value = true
+                if (isLoading.value!!) isLoading.value = false
+                dataPerPage.postValue(result.results)
+            }
+        }
+    }
 
 }

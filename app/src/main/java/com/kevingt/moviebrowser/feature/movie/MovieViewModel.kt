@@ -5,6 +5,6 @@ import android.arch.lifecycle.ViewModel
 
 class MovieViewModel : ViewModel() {
 
-    var data: MutableLiveData<String> = MutableLiveData()
+    var data = MutableLiveData<String>()
 
 }
