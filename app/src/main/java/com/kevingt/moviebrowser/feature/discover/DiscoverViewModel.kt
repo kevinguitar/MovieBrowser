@@ -14,11 +14,11 @@ class DiscoverViewModel : BaseViewModel() {
     val dataPerPage = MutableLiveData<List<Movie>>().default(listOf())
     val isLoading = MutableLiveData<Boolean>().default(true)
     val isLastPage = MutableLiveData<Boolean>().default(false)
-    private var page = 1
+    private var page = 0
 
     fun discoverMovie() {
         CoroutineScope(Dispatchers.IO).launch {
-            val result = apiManager.discoverMovie(page).await()
+            val result = apiManager.discoverMovie(page + 1).await()
             withContext(Dispatchers.Main) {
                 page = result.page
                 if (page == result.total_pages) isLastPage.value = true

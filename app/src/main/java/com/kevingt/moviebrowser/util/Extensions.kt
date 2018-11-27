@@ -7,7 +7,12 @@ import com.kevingt.moviebrowser.BuildConfig
 
 fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { value = initialValue }
 
-fun ImageView.loadImage(fileName: String) =
+fun ImageView.loadSmallImage(fileName: String?) =
     Glide.with(this)
-        .load(BuildConfig.IMAGE_URL + fileName)
+        .load(BuildConfig.IMAGE_URL + "/w200/" + (fileName ?: ""))
+        .into(this)
+
+fun ImageView.loadLargeImage(fileName: String?) =
+    Glide.with(this)
+        .load(BuildConfig.IMAGE_URL + "/w500/" + (fileName ?: ""))
         .into(this)
