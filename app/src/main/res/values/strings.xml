@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">MovieBrowser</string>
 
-    <!--Discover-->
-    <string name="discover_vote_prefix">平均評分：%.1f</string>
-    <string name="discover_release_date_prefix">上映日期：%s</string>
+    <!--Movie-->
+    <string name="movie_overview">劇情大綱</string>
+    <string name="movie_vote_prefix">平均評分：%.1f</string>
+    <string name="movie_release_date_prefix">上映日期：%s</string>
+    <string name="movie_genre_prefix">類型：</string>
+    <string name="movie_genre_null">無</string>
+    <string name="movie_adult">限制級：是</string>
+    <string name="movie_not_adult">限制級：否</string>
 </resources>

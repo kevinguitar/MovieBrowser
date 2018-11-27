@@ -7,4 +7,5 @@
 
     <color name="wordingDark">#282828</color>
     <color name="wordingLight">#484848</color>
+    <color name="black">#141414</color>
 </resources>

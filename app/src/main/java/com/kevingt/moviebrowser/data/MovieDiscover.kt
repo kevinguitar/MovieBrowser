@@ -1,5 +1,9 @@
 package com.kevingt.moviebrowser.data
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Movie(
     val id: Int,
     val title: String,
@@ -8,13 +12,17 @@ data class Movie(
     val poster_path: String?,
     val backdrop_path: String?,
     val release_date: String,
+    val adult: Boolean,
     val genre_ids: List<Int>,
-    val genres: List<Genre>)
+    val genres: List<Genre>
+) : Parcelable
 
 data class Discover(
     val page: Int,
     val total_results: Int,
     val total_pages: Int,
-    val results: List<Movie>)
+    val results: List<Movie>
+)
 
-data class Genre(val id: Int, val name: String)
+@Parcelize
+data class Genre(val id: Int, val name: String) : Parcelable

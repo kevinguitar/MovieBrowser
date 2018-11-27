@@ -7,7 +7,7 @@ import com.kevingt.moviebrowser.data.Movie
 import com.kevingt.moviebrowser.feature.discover.DiscoverFragment
 import com.kevingt.moviebrowser.feature.movie.MovieFragment
 
-class MainActivity : BaseActivity(), DiscoverFragment.Listener, MovieFragment.Listener {
+class MainActivity : BaseActivity(), DiscoverFragment.Listener {
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
@@ -16,7 +16,7 @@ class MainActivity : BaseActivity(), DiscoverFragment.Listener, MovieFragment.Li
     }
 
     override fun showMoviePage(movie: Movie) {
-        replaceFragment(R.id.main_container, MovieFragment.newInstance())
+        replaceFragment(R.id.main_container, MovieFragment.newInstance(movie))
     }
 
 }

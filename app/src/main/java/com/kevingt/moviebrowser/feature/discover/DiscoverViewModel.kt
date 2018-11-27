@@ -25,7 +25,7 @@ class DiscoverViewModel : BaseViewModel() {
                 if (isLoading.value!!) isLoading.value = false
                 dataPerPage.postValue(result.results)
             }
-        }
+        }.also { jobQueue.add(it) }
     }
 
 }
