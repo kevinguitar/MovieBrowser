@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MovieBrowser</string>
 
+    <!--Discover-->
+    <string name="discover_title">熱門電影</string>
+
     <!--Movie-->
     <string name="movie_overview">劇情大綱</string>
     <string name="movie_vote_prefix">平均評分：%.1f</string>

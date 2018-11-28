@@ -6,6 +6,7 @@ import com.kevingt.moviebrowser.base.BaseActivity
 import com.kevingt.moviebrowser.data.Movie
 import com.kevingt.moviebrowser.feature.discover.DiscoverFragment
 import com.kevingt.moviebrowser.feature.movie.MovieFragment
+import kotlinx.android.synthetic.main.layout_app_bar.*
 
 class MainActivity : BaseActivity(), DiscoverFragment.Listener {
 

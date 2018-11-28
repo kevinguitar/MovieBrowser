@@ -35,11 +35,6 @@ class MovieFragment : BaseFragment() {
 
     override fun bindActivity(activity: Activity?, fragment: Fragment?) {}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home) {
             activity?.onBackPressed()
@@ -49,9 +44,7 @@ class MovieFragment : BaseFragment() {
     }
 
     override fun initView(parent: View, savedInstanceState: Bundle?) {
-        (activity as AppCompatActivity).setSupportActionBar(tb_movie)
-        setActionBarTitle(0)
-        setHomeAsUpVisibility(true)
+        setActionBar(tb_movie, 0, true)
 
         viewModel = ViewModelProviders.of(activity!!).get(MovieViewModel::class.java)
 

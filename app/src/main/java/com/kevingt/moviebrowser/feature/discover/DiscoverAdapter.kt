@@ -49,7 +49,6 @@ class DiscoverAdapter(private val listener: ItemListener) :
             tv_discover_date.text =
                     context.getString(R.string.movie_release_date_prefix, data[position].release_date)
             iv_discover_poster.loadSmallImage(data[position].poster_path)
-            iv_discover_back.loadLargeImage(data[position].backdrop_path)
             setOnClickListener { listener.onMovieClicked(data[position]) }
         }
     }

@@ -12,6 +12,7 @@ import com.kevingt.moviebrowser.R
 import com.kevingt.moviebrowser.base.BaseFragment
 import com.kevingt.moviebrowser.data.Movie
 import kotlinx.android.synthetic.main.fragment_discover.*
+import kotlinx.android.synthetic.main.layout_app_bar.*
 
 class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
     companion object {
@@ -36,6 +37,8 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
     }
 
     override fun initView(parent: View, savedInstanceState: Bundle?) {
+        setActionBar(toolbar, R.string.discover_title, false)
+
         viewModel = ViewModelProviders.of(activity!!).get(DiscoverViewModel::class.java)
 
         rv_discover.layoutManager = LinearLayoutManager(context)

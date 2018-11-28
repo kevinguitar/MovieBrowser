@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +19,6 @@ import android.widget.Toast
 import com.kevingt.moviebrowser.R
 
 abstract class BaseFragment : Fragment() {
-
     protected companion object {
         enum class FragmentAnimation {
             DEFAULT,
@@ -52,6 +51,7 @@ abstract class BaseFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentData = arguments ?: Bundle()
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,36 +70,14 @@ abstract class BaseFragment : Fragment() {
 
     protected abstract fun initView(parent: View, savedInstanceState: Bundle?)
 
-    /**
-     * @param show  Control the parent actionBar's show/ hide
-     */
-    protected fun setActionBarVisibility(show: Boolean) {
-        if (show) {
-            (activity as? AppCompatActivity)?.supportActionBar?.show()
-        } else {
-            (activity as? AppCompatActivity)?.supportActionBar?.hide()
+    protected fun getActionBar() = (activity as AppCompatActivity).supportActionBar
+
+    protected fun setActionBar(toolbar: Toolbar, @StringRes titleId: Int, showBackButton: Boolean) {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        getActionBar()?.apply {
+            setTitle(titleId)
+            setDisplayHomeAsUpEnabled(showBackButton)
         }
-    }
-
-    /**
-     * @param titleId   Title's resource id
-     */
-    protected fun setActionBarTitle(@StringRes titleId: Int) {
-        (activity as? AppCompatActivity)?.supportActionBar?.setTitle(titleId)
-    }
-
-    /**
-     * @param show  Control the parent actionBar's back button show/ hide
-     */
-    protected fun setHomeAsUpVisibility(show: Boolean) {
-        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(show)
-    }
-
-    /**
-     * @param drawableId    Drawable's id in resources
-     */
-    protected fun setHomeAsUpIndicator(@DrawableRes drawableId: Int) {
-        (activity as? AppCompatActivity)?.supportActionBar?.setHomeAsUpIndicator(drawableId)
     }
 
     /**
@@ -109,8 +87,10 @@ abstract class BaseFragment : Fragment() {
         if (enable) {
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         } else {
-            activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            activity?.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
         }
     }
 
@@ -138,14 +118,20 @@ abstract class BaseFragment : Fragment() {
      * @param animation   The predefined variable to determine the orientation of animation
      * @param data        Optional bundle things brought into the fragment
      */
-    protected fun addFragment(containerId: Int, fragment: Fragment, animation: FragmentAnimation = FragmentAnimation.DEFAULT, data: Bundle? = null) {
+    protected fun addFragment(
+        containerId: Int,
+        fragment: Fragment,
+        animation: FragmentAnimation = FragmentAnimation.DEFAULT,
+        data: Bundle? = null
+    ) {
         if (data != null) {
             fragment.arguments = data
         }
-        var transaction: FragmentTransaction = childFragmentManager.beginTransaction()
-        transaction = setFragmentAnimation(transaction, animation)
-        transaction.add(containerId, fragment, fragment.javaClass.canonicalName)
-        transaction.commit()
+        childFragmentManager.beginTransaction().run {
+            setFragmentAnimation(this, animation)
+            add(containerId, fragment, fragment.javaClass.canonicalName)
+            commit()
+        }
     }
 
     /**
@@ -155,19 +141,21 @@ abstract class BaseFragment : Fragment() {
      * @param backStackName  The backstack's name for the fragment
      * @param data           Optional bundle things brought into the fragment
      */
-    protected fun replaceFragment(containerId: Int, fragment: Fragment, addToBackStack: Boolean = true,
-                                  backStackName: String? = fragment::class.java.canonicalName, data: Bundle? = null) {
+    protected fun replaceFragment(
+        containerId: Int, fragment: Fragment, addToBackStack: Boolean = true,
+        backStackName: String? = fragment::class.java.canonicalName, data: Bundle? = null
+    ) {
         if (data != null) {
             fragment.arguments = data
         }
-        var transaction: FragmentTransaction = childFragmentManager.beginTransaction()
-        transaction = setFragmentAnimation(transaction, FragmentAnimation.SLIDE_HORIZONTAL)
-        transaction.replace(containerId, fragment, backStackName
-                ?: fragment.javaClass.canonicalName)
-        if (addToBackStack) {
-            transaction.addToBackStack(backStackName ?: fragment.javaClass.canonicalName)
+        childFragmentManager.beginTransaction().run {
+            setFragmentAnimation(this, FragmentAnimation.SLIDE_HORIZONTAL)
+            replace(containerId, fragment, backStackName ?: fragment.javaClass.canonicalName)
+            if (addToBackStack) {
+                addToBackStack(backStackName ?: fragment.javaClass.canonicalName)
+            }
+            commit()
         }
-        transaction.commit()
     }
 
     /**
@@ -199,16 +187,20 @@ abstract class BaseFragment : Fragment() {
      * @param transaction   Current fragment transition which need animation
      * @param animation     The animation type that was define in enum
      */
-    private fun setFragmentAnimation(transaction: FragmentTransaction, animation: FragmentAnimation): FragmentTransaction {
+    private fun setFragmentAnimation(transaction: FragmentTransaction, animation: FragmentAnimation) {
         when (animation) {
             FragmentAnimation.DEFAULT ->
                 transaction.setCustomAnimations(0, R.anim.slide_out_to_left)
             FragmentAnimation.SLIDE_VERTICAL ->
                 transaction.setCustomAnimations(R.anim.slide_in_from_bottom, R.anim.slide_out_to_bottom)
             FragmentAnimation.SLIDE_HORIZONTAL ->
-                transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right)
+                transaction.setCustomAnimations(
+                    R.anim.slide_in_from_right,
+                    R.anim.slide_out_to_left,
+                    R.anim.slide_in_from_left,
+                    R.anim.slide_out_to_right
+                )
         }
-        return transaction
     }
 
 }
