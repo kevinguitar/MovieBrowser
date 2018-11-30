@@ -9,4 +9,5 @@
     <color name="wordingLight">#484848</color>
     <color name="black">#141414</color>
     <color name="white">#ffffff</color>
+    <color name="lightGrey">#dddddd</color>
 </resources>

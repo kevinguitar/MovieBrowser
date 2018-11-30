@@ -10,10 +10,20 @@ interface MovieApi {
 
     @GET("discover/movie")
     fun discoverMovie(
+        @Query("with_genres") withGenres: String,
+        @Query("sort_by") sortBy: String,
         @Query("page") page: Int,
         @Query("api_key") key: String = Constant.API_KEY,
         @Query("language") language: String = Constant.LANGUAGE,
-        @Query("sort_by") sortBy: String = Constant.SORT_BY,
+        @Query("include_adult") includeAdult: Boolean = true
+    ): Deferred<Discover>
+
+    @GET("search/movie")
+    fun searchMovie(
+        @Query("query") keyword: String,
+        @Query("page") page: Int,
+        @Query("api_key") key: String = Constant.API_KEY,
+        @Query("language") language: String = Constant.LANGUAGE,
         @Query("include_adult") includeAdult: Boolean = true
     ): Deferred<Discover>
 

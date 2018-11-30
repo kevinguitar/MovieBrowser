@@ -7,17 +7,27 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.MenuItem
 import android.view.View
 import com.kevingt.moviebrowser.R
 import com.kevingt.moviebrowser.base.BaseFragment
+import com.kevingt.moviebrowser.data.Genre
 import com.kevingt.moviebrowser.data.Movie
 import kotlinx.android.synthetic.main.fragment_discover.*
 import kotlinx.android.synthetic.main.layout_app_bar.*
 
 class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
     companion object {
-        fun newInstance(): DiscoverFragment {
-            val args = Bundle()
+        private const val ARG_KEYWORD = "KEYWORD"
+        private const val ARG_GENRE = "GENRE"
+        private const val ARG_SORT = "SORT"
+
+        fun newInstance(keyword: String? = null, genre: Genre? = null, sort: Genre? = null): DiscoverFragment {
+            val args = Bundle().apply {
+                putString(ARG_KEYWORD, keyword)
+                putParcelable(ARG_GENRE, genre)
+                putParcelable(ARG_SORT, sort)
+            }
 
             val fragment = DiscoverFragment()
             fragment.arguments = args
@@ -36,10 +46,18 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
         listener = activity as Listener?
     }
 
-    override fun initView(parent: View, savedInstanceState: Bundle?) {
-        setActionBar(toolbar, R.string.discover_title, false)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            activity?.onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
-        viewModel = ViewModelProviders.of(activity!!).get(DiscoverViewModel::class.java)
+    override fun initView(parent: View, savedInstanceState: Bundle?) {
+        setActionBar(toolbar, R.string.discover_title, true)
+
+        viewModel = ViewModelProviders.of(this).get(DiscoverViewModel::class.java)
 
         rv_discover.layoutManager = LinearLayoutManager(context)
         rv_discover.adapter = adapter
@@ -49,7 +67,7 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
                 val manager = recyclerView?.layoutManager as LinearLayoutManager
                 val position = manager.findLastCompletelyVisibleItemPosition()
                 if (position + 1 >= adapter.itemCount && !adapter.isLastPage) {
-                    viewModel.discoverMovie()
+                    discoverMovies()
                 }
             }
         })
@@ -69,7 +87,19 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
 
         viewModel.isLastPage.observe(this, Observer { adapter.isLastPage = it!! })
 
-        viewModel.discoverMovie()
+        discoverMovies()
+    }
+
+    fun discoverMovies() {
+        val keyword = fragmentData.getString(ARG_KEYWORD)
+        if (keyword != null) {
+            viewModel.searchMovie(keyword)
+        } else {
+            viewModel.discoverMovie(
+                fragmentData.getParcelable(ARG_GENRE),
+                fragmentData.getParcelable(ARG_SORT)
+            )
+        }
     }
 
     override fun onMovieClicked(movie: Movie) {

@@ -21,8 +21,11 @@ class ApiManager {
             .build()
     }
 
-    fun discoverMovie(page: Int): Deferred<Discover> =
-        retrofit.value.create(MovieApi::class.java).discoverMovie(page)
+    fun discoverMovie(genre: String, sort: String, page: Int): Deferred<Discover> =
+        retrofit.value.create(MovieApi::class.java).discoverMovie(genre, sort, page)
+
+    fun searchMovie(keyword: String, page: Int): Deferred<Discover> =
+        retrofit.value.create(MovieApi::class.java).searchMovie(keyword, page)
 
     fun getMovie(id: Int): Deferred<Movie> =
         retrofit.value.create(MovieApi::class.java).getMovie(id)

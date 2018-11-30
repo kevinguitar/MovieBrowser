@@ -20,8 +20,9 @@ class MovieFragment : BaseFragment() {
     companion object {
         private const val ARG_MOVIE = "MOVIE"
         fun newInstance(movie: Movie): MovieFragment {
-            val args = Bundle()
-            args.putParcelable(ARG_MOVIE, movie)
+            val args = Bundle().apply {
+                putParcelable(ARG_MOVIE, movie)
+            }
 
             val fragment = MovieFragment()
             fragment.arguments = args
