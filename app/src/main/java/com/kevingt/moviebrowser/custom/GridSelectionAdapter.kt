@@ -36,5 +36,5 @@ class GridSelectionAdapter : RecyclerView.Adapter<GridSelectionAdapter.ViewHolde
         notifyDataSetChanged()
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }

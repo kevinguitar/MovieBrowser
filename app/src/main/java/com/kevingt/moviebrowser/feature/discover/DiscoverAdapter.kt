@@ -53,8 +53,8 @@ class DiscoverAdapter(private val listener: ItemListener) :
         }
     }
 
-    private class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view)
-    private class LoadingViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class LoadingViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     interface ItemListener {
         fun onMovieClicked(movie: Movie)
