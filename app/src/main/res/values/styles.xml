@@ -18,10 +18,6 @@
         <item name="android:textColorHint">@color/black</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textSize">18sp</item>
-    </style>
-
     <style name="ToolbarTitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
