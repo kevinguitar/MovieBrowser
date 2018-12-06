@@ -2,7 +2,9 @@ package com.kevingt.moviebrowser.data
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.kevingt.moviebrowser.BuildConfig
+import com.kevingt.moviebrowser.util.getData
 import kotlinx.coroutines.Deferred
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -21,12 +23,12 @@ class ApiManager {
             .build()
     }
 
-    fun discoverMovie(genre: String, sort: String, page: Int): Deferred<Discover> =
-        retrofit.value.create(MovieApi::class.java).discoverMovie(genre, sort, page)
+    suspend fun discoverMovie(genre: String, sort: String, page: Int): HttpResult<Response<Discover>> =
+        retrofit.value.create(MovieApi::class.java).discoverMovie(genre, sort, page).getData()
 
-    fun searchMovie(keyword: String, page: Int): Deferred<Discover> =
-        retrofit.value.create(MovieApi::class.java).searchMovie(keyword, page)
+    suspend fun searchMovie(keyword: String, page: Int): HttpResult<Response<Discover>> =
+        retrofit.value.create(MovieApi::class.java).searchMovie(keyword, page).getData()
 
-    fun getMovie(id: Int): Deferred<Movie> =
-        retrofit.value.create(MovieApi::class.java).getMovie(id)
+    suspend fun getMovie(id: Int): HttpResult<Response<Movie>> =
+        retrofit.value.create(MovieApi::class.java).getMovie(id).getData()
 }

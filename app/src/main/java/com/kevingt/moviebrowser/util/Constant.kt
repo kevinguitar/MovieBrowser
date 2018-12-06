@@ -5,6 +5,9 @@ import com.kevingt.moviebrowser.data.Genre
 object Constant {
     // Api
     const val API_KEY = "cdc5231270e55f7e77f7f659d6cfc5a1"
+    const val ERROR_TITLE = "錯誤"
+    const val API_ERROR_MESSAGE = "Api error!"
+    const val NETWORK_ERROR_MESSAGE = "Network error!"
     const val LANGUAGE = "zh-TW"
     const val SORT_BY_POPULARITY = "popularity.desc"
     const val SORT_BY_VOTE = "vote_average.desc"

@@ -8,14 +8,15 @@ import com.kevingt.moviebrowser.data.Movie
 import com.kevingt.moviebrowser.feature.discover.DiscoverFragment
 import com.kevingt.moviebrowser.feature.movie.MovieFragment
 import com.kevingt.moviebrowser.feature.search.SearchFragment
-import kotlinx.android.synthetic.main.layout_app_bar.*
 
 class MainActivity : BaseActivity(), SearchFragment.Listener, DiscoverFragment.Listener {
 
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun initView(savedInstanceState: Bundle?) {
-        addFragment(R.id.main_container, SearchFragment.newInstance())
+        if (savedInstanceState == null) {
+            addFragment(R.id.main_container, SearchFragment.newInstance())
+        }
     }
 
     override fun searchByKeyword(keyword: String) {

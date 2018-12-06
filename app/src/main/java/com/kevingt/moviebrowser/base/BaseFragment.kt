@@ -9,6 +9,7 @@ import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
@@ -110,6 +111,13 @@ abstract class BaseFragment : Fragment() {
         toast.setText(resId)
         toast.duration = duration
         toast.show()
+    }
+
+    /**
+     * @param block     The setting of Alert Dialog
+     */
+    protected fun alert(block: AlertDialog.Builder.() -> Unit) {
+        AlertDialog.Builder(context!!).apply { block() }.show()
     }
 
     /**

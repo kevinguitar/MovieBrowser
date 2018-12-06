@@ -5,6 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.kevingt.moviebrowser.BuildConfig
+import com.kevingt.moviebrowser.data.HttpResult
+import kotlinx.coroutines.Deferred
+import retrofit2.Response
 
 fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { value = initialValue }
 
@@ -20,6 +23,16 @@ fun ImageView.loadLargeImage(fileName: String?) =
 
 fun RecyclerView.addLoadMoreListener(block: () -> Unit) {
     this.addOnScrollListener(object : OnLoadMoreListener() {
-        override fun onLoading() { block() }
+        override fun onLoading() {
+            block()
+        }
     })
 }
+
+suspend fun <T> Deferred<Response<T>>.getData(): HttpResult<Response<T>> =
+    try {
+        val result = await()
+        HttpResult.Success(result)
+    } catch (e: Throwable) {
+        HttpResult.Error(e)
+    }

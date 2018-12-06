@@ -5,12 +5,12 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import com.kevingt.moviebrowser.R
 import com.kevingt.moviebrowser.base.BaseFragment
 import com.kevingt.moviebrowser.data.Movie
+import com.kevingt.moviebrowser.util.Constant
 import com.kevingt.moviebrowser.util.loadLargeImage
 import com.kevingt.moviebrowser.util.loadSmallImage
 import kotlinx.android.synthetic.main.content_movie.*
@@ -47,7 +47,7 @@ class MovieFragment : BaseFragment() {
     override fun initView(parent: View, savedInstanceState: Bundle?) {
         setActionBar(tb_movie, 0, true)
 
-        viewModel = ViewModelProviders.of(activity!!).get(MovieViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
 
         viewModel.movie.observe(this, Observer {
             val genreBuilder = StringBuilder(getString(R.string.movie_genre_prefix))
@@ -61,6 +61,13 @@ class MovieFragment : BaseFragment() {
             tv_movie_overview.text = it?.overview
             tv_movie_adult.text =
                     if (it?.adult!!) getString(R.string.movie_adult) else getString(R.string.movie_not_adult)
+        })
+
+        viewModel.errorMessage.observe(this, Observer {
+            alert {
+                setTitle(Constant.ERROR_TITLE)
+                setMessage(it)
+            }
         })
 
         fragmentData.getParcelable<Movie>(ARG_MOVIE)?.apply {

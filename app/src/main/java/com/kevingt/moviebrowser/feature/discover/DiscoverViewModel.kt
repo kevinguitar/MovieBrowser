@@ -3,6 +3,7 @@ package com.kevingt.moviebrowser.feature.discover
 import android.arch.lifecycle.MutableLiveData
 import com.kevingt.moviebrowser.base.BaseViewModel
 import com.kevingt.moviebrowser.data.Genre
+import com.kevingt.moviebrowser.data.HttpResult
 import com.kevingt.moviebrowser.data.Movie
 import com.kevingt.moviebrowser.util.Constant
 import com.kevingt.moviebrowser.util.default
@@ -13,10 +14,11 @@ import kotlinx.coroutines.withContext
 
 class DiscoverViewModel : BaseViewModel() {
 
-    val dataPerPage = MutableLiveData<List<Movie>>().default(listOf())
+    val discoverData = MutableLiveData<List<Movie>>().default(listOf())
     val isLoading = MutableLiveData<Boolean>().default(true)
     val isLastPage = MutableLiveData<Boolean>().default(false)
-    private var page = 0
+    val errorMessage = MutableLiveData<String>()
+    var page = 0
 
     fun discoverMovie(genre: Genre? = null, sort: Genre? = null) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -29,24 +31,53 @@ class DiscoverViewModel : BaseViewModel() {
             }
             val result = apiManager.discoverMovie(
                 genre?.id?.toString() ?: "", sortBy, page + 1
-            ).await()
+            )
+
+            // Run on Ui thread
             withContext(Dispatchers.Main) {
-                page = result.page
-                if (page == result.total_pages) isLastPage.value = true
-                if (isLoading.value!!) isLoading.value = false
-                dataPerPage.postValue(result.results)
+                when (result) {
+                    is HttpResult.Success -> {
+                        if (result.data.isSuccessful) {
+                            val body = result.data.body()!!
+                            page = body.page
+                            if (page == body.total_pages) isLastPage.value = true
+                            if (isLoading.value!!) isLoading.value = false
+                            mutableListOf<Movie>().apply {
+                                addAll(discoverData.value!!)
+                                addAll(body.results)
+                            }.also { discoverData.postValue(it) }
+                        } else {    // Api error
+                            errorMessage.value = Constant.API_ERROR_MESSAGE
+                        }
+                    }
+                    is HttpResult.Error -> {    // Network error
+                        errorMessage.value = Constant.NETWORK_ERROR_MESSAGE
+                    }
+                }
             }
         }.also { jobQueue.add(it) }
     }
 
     fun searchMovie(keyword: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val result = apiManager.searchMovie(keyword, page + 1).await()
+            val result = apiManager.searchMovie(keyword, page + 1)
             withContext(Dispatchers.Main) {
-                page = result.page
-                if (page == result.total_pages) isLastPage.value = true
-                if (isLoading.value!!) isLoading.value = false
-                dataPerPage.postValue(result.results)
+                when (result) {
+                    is HttpResult.Success -> {
+                        if (result.data.isSuccessful) {
+                            val body = result.data.body()!!
+                            page = body.page
+                            if (page == body.total_pages) isLastPage.value = true
+                            if (isLoading.value!!) isLoading.value = false
+                            discoverData.postValue(body.results)
+                        } else {    // Api error
+                            errorMessage.value = Constant.API_ERROR_MESSAGE
+                        }
+                    }
+                    is HttpResult.Error -> {
+                        errorMessage.value = Constant.NETWORK_ERROR_MESSAGE
+                    }
+                }
             }
         }.also { jobQueue.add(it) }
     }

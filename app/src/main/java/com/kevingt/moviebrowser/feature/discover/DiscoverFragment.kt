@@ -6,13 +6,13 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.view.View
 import com.kevingt.moviebrowser.R
 import com.kevingt.moviebrowser.base.BaseFragment
 import com.kevingt.moviebrowser.data.Genre
 import com.kevingt.moviebrowser.data.Movie
+import com.kevingt.moviebrowser.util.Constant
 import com.kevingt.moviebrowser.util.addLoadMoreListener
 import kotlinx.android.synthetic.main.fragment_discover.*
 import kotlinx.android.synthetic.main.layout_app_bar.*
@@ -69,9 +69,9 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
             }
         }
 
-        viewModel.dataPerPage.observe(this, Observer {
-            if (it?.isEmpty()!!) return@Observer
-            adapter.data.addAll(it)
+        viewModel.discoverData.observe(this, Observer {
+            adapter.data.clear()
+            adapter.data.addAll(it ?: listOf())
             adapter.notifyDataSetChanged()
         })
 
@@ -84,7 +84,14 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
 
         viewModel.isLastPage.observe(this, Observer { adapter.isLastPage = it!! })
 
-        discoverMovies()
+        viewModel.errorMessage.observe(this, Observer {
+            alert {
+                setTitle(Constant.ERROR_TITLE)
+                setMessage(it)
+            }
+        })
+
+        if (viewModel.page == 0) discoverMovies()
     }
 
     private fun discoverMovies() {

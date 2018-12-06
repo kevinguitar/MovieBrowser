@@ -2,6 +2,7 @@ package com.kevingt.moviebrowser.data
 
 import com.kevingt.moviebrowser.util.Constant
 import kotlinx.coroutines.Deferred
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,7 +17,7 @@ interface MovieApi {
         @Query("api_key") key: String = Constant.API_KEY,
         @Query("language") language: String = Constant.LANGUAGE,
         @Query("include_adult") includeAdult: Boolean = true
-    ): Deferred<Discover>
+    ): Deferred<Response<Discover>>
 
     @GET("search/movie")
     fun searchMovie(
@@ -25,13 +26,13 @@ interface MovieApi {
         @Query("api_key") key: String = Constant.API_KEY,
         @Query("language") language: String = Constant.LANGUAGE,
         @Query("include_adult") includeAdult: Boolean = true
-    ): Deferred<Discover>
+    ): Deferred<Response<Discover>>
 
     @GET("movie/{id}")
     fun getMovie(
         @Path("id") id: Int,
         @Query("api_key") key: String = Constant.API_KEY,
         @Query("language") language: String = Constant.LANGUAGE
-    ): Deferred<Movie>
+    ): Deferred<Response<Movie>>
 
 }
