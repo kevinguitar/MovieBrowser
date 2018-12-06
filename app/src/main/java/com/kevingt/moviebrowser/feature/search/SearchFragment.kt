@@ -1,7 +1,6 @@
 package com.kevingt.moviebrowser.feature.search
 
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
@@ -23,8 +22,6 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    private lateinit var viewModel: SearchViewModel
-
     private var listener: Listener? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_search
@@ -34,8 +31,6 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun initView(parent: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(activity!!).get(SearchViewModel::class.java)
-
         grv_search_genre.setupSelection(Constant.GENRE_LIST, 3)
         grv_search_sort.setupSelection(Constant.SORT_LIST, 2)
 

@@ -13,6 +13,7 @@ import com.kevingt.moviebrowser.R
 import com.kevingt.moviebrowser.base.BaseFragment
 import com.kevingt.moviebrowser.data.Genre
 import com.kevingt.moviebrowser.data.Movie
+import com.kevingt.moviebrowser.util.addLoadMoreListener
 import kotlinx.android.synthetic.main.fragment_discover.*
 import kotlinx.android.synthetic.main.layout_app_bar.*
 
@@ -62,15 +63,11 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
         rv_discover.layoutManager = LinearLayoutManager(context)
         rv_discover.adapter = adapter
         //Get new data when loading view is visible
-        rv_discover.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                val manager = recyclerView?.layoutManager as LinearLayoutManager
-                val position = manager.findLastCompletelyVisibleItemPosition()
-                if (position + 1 >= adapter.itemCount && !adapter.isLastPage) {
-                    discoverMovies()
-                }
+        rv_discover.addLoadMoreListener {
+            if (!adapter.isLastPage) {
+                discoverMovies()
             }
-        })
+        }
 
         viewModel.dataPerPage.observe(this, Observer {
             if (it?.isEmpty()!!) return@Observer
@@ -90,7 +87,7 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
         discoverMovies()
     }
 
-    fun discoverMovies() {
+    private fun discoverMovies() {
         val keyword = fragmentData.getString(ARG_KEYWORD)
         if (keyword != null) {
             viewModel.searchMovie(keyword)
