@@ -14,7 +14,7 @@ data class Movie(
     val release_date: String,
     val adult: Boolean,
     val genre_ids: List<Int>,
-    val genres: List<Genre>
+    val genres: List<Genre>?
 ) : Parcelable
 
 data class Discover(

@@ -3,6 +3,7 @@ package com.kevingt.moviebrowser.feature.movie
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.MenuItem
@@ -52,15 +53,16 @@ class MovieFragment : BaseFragment() {
         viewModel.movie.observe(this, Observer {
             val genreBuilder = StringBuilder(getString(R.string.movie_genre_prefix))
             if (it?.genres?.isEmpty() != false) {
-                genreBuilder.append(getString(R.string.movie_genre_null))
+                genreBuilder.append(getString(R.string.movie_null))
             } else {
                 it.genres.forEach { genre -> genreBuilder.append(genre.name).append("、") }
                 genreBuilder.deleteCharAt(genreBuilder.length - 1)
             }
             tv_movie_genre.text = genreBuilder.toString()
-            tv_movie_overview.text = it?.overview
+            tv_movie_overview.text =
+                    if (it?.overview?.isEmpty() == true) getString(R.string.movie_null) else it?.overview
             tv_movie_adult.text =
-                    if (it?.adult!!) getString(R.string.movie_adult) else getString(R.string.movie_not_adult)
+                    if (it?.adult == true) getString(R.string.movie_adult) else getString(R.string.movie_not_adult)
         })
 
         viewModel.errorMessage.observe(this, Observer {
@@ -77,6 +79,16 @@ class MovieFragment : BaseFragment() {
             tv_movie_vote.text = getString(R.string.movie_vote_prefix, vote_average)
             tv_movie_date.text = getString(R.string.movie_release_date_prefix, release_date)
             viewModel.getMovie(id)
+        }
+
+        btn_movie_youtube_search.setOnClickListener {
+            startActivity(
+                Intent(Intent.ACTION_SEARCH).apply {
+                    setPackage(Constant.YOUTUBE_PACKAGE_NAME)
+                    putExtra("query", fragmentData.getParcelable<Movie>(ARG_MOVIE).title)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+            )
         }
     }
 

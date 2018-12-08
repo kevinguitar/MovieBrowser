@@ -41,4 +41,7 @@ object Constant {
         Genre(3, "最新"),
         Genre(4, "最舊")
     )
+
+    // Movie
+    const val YOUTUBE_PACKAGE_NAME = "com.google.android.youtube"
 }
