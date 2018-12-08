@@ -36,3 +36,7 @@ suspend fun <T> Deferred<Response<T>>.getData(): HttpResult<Response<T>> =
     } catch (e: Throwable) {
         HttpResult.Error(e)
     }
+
+fun <T: Any?> T.debug(block: () -> Unit) {
+    if (BuildConfig.DEBUG) block()
+}
