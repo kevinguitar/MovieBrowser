@@ -21,8 +21,8 @@ class GridSelectionAdapter : RecyclerView.Adapter<GridSelectionAdapter.ViewHolde
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
-            tv_grid_selection.text = data[position].name
-            tv_grid_selection.isChecked = selection?.id == data[position].id
+            cp_grid_selection.text = data[position].name
+            cp_grid_selection.isChecked = selection?.id == data[position].id
             setOnClickListener {
                 selection = data[position]
                 notifyDataSetChanged()

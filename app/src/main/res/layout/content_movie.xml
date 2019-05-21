@@ -104,15 +104,12 @@
                   app:layout_constraintTop_toBottomOf="@id/tv_movie_overview_title"
                   tools:text="This is a known bug in the IDE itself and you can ignore it, there’s nothing wrong with the code and it works as expected. You can keep track of the issue here. At the moment it’s In Progress state."/>
 
-        <Button
+        <com.kevingt.moviebrowser.custom.CustomButton
                 android:id="@+id/btn_movie_youtube_search"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:text="@string/movie_search_on_youtube"
+                android:layout_height="50dp"
                 android:layout_margin="@dimen/search_page_margin"
-                android:textSize="16sp"
-                android:textColor="@color/wordingLight"
-                android:background="@drawable/bg_btn_search"
+                app:buttonText="@string/movie_search_on_youtube"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_overview"

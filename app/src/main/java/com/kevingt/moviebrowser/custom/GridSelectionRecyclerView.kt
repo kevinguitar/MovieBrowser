@@ -39,7 +39,7 @@ class GridSelectionRecyclerView @JvmOverloads constructor(
         layoutManager = GridLayoutManager(
             context,
             spanCount,
-            RecyclerView.VERTICAL,
+            VERTICAL,
             false
         )
         setAdapter(adapter.apply { setSelectionList(data) })

@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:text="@string/search_genre"
             style="@style/TitleText"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/grv_search_genre"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:text="@string/search_sort"
             style="@style/TitleText"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/grv_search_genre"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/grv_search_sort"
@@ -92,15 +92,13 @@
             app:layout_constraintBottom_toTopOf="@id/btn_search"
             app:layout_constraintTop_toBottomOf="@id/tv_search_sort"/>
 
-    <Button
+    <com.kevingt.moviebrowser.custom.CustomButton
             android:id="@+id/btn_search"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:text="@string/search_button_search"
             android:layout_margin="@dimen/search_page_margin"
-            android:textSize="16sp"
-            android:textColor="@color/wordingLight"
-            android:background="@drawable/bg_btn_search"
+            app:buttonText="@string/search_button_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf=" parent"/>

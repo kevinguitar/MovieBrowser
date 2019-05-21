@@ -9,6 +9,7 @@
     <string name="search_sort">排序依照</string>
     <string name="search_button_search">搜尋</string>
 
+
     <!--Discover-->
     <string name="discover_title">搜尋結果</string>
 
@@ -21,4 +22,7 @@
     <string name="movie_adult">限制級：是</string>
     <string name="movie_not_adult">限制級：否</string>
     <string name="movie_search_on_youtube">Youtube 搜尋</string>
+
+    <!--Custom Button-->
+    <string name="custom_button_default_text">確認</string>
 </resources>
