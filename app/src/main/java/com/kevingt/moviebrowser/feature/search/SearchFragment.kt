@@ -2,8 +2,8 @@ package com.kevingt.moviebrowser.feature.search
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.kevingt.moviebrowser.R
 import com.kevingt.moviebrowser.base.BaseFragment
 import com.kevingt.moviebrowser.data.Genre

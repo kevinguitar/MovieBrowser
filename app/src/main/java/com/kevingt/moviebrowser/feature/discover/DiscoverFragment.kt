@@ -1,13 +1,13 @@
 package com.kevingt.moviebrowser.feature.discover
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.kevingt.moviebrowser.R
 import com.kevingt.moviebrowser.base.BaseFragment
 import com.kevingt.moviebrowser.data.Genre

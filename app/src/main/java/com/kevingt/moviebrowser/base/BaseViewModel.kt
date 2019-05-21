@@ -1,6 +1,6 @@
 package com.kevingt.moviebrowser.base
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.kevingt.moviebrowser.data.ApiManager
 import kotlinx.coroutines.Job
 

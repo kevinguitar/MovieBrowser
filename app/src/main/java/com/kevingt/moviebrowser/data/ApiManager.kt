@@ -3,7 +3,6 @@ package com.kevingt.moviebrowser.data
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.kevingt.moviebrowser.BuildConfig
 import com.kevingt.moviebrowser.util.getData
-import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

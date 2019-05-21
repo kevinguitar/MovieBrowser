@@ -1,7 +1,7 @@
 package com.kevingt.moviebrowser.util
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 abstract class OnLoadMoreListener : RecyclerView.OnScrollListener() {
     companion object {
@@ -17,11 +17,11 @@ abstract class OnLoadMoreListener : RecyclerView.OnScrollListener() {
     // This happens many times a second during a scroll, so be wary of the code you place here.
     // We are given a few useful parameters to help us work out if we need to load some more data,
     // but first we check if we are waiting for the previous load to finish.
-    override fun onScrolled(view: RecyclerView?, dx: Int, dy: Int) {
+    override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
         if (dy <= 0) {
             return
         }
-        val layoutManager = view?.layoutManager as LinearLayoutManager
+        val layoutManager = view.layoutManager as LinearLayoutManager
         val itemCount = layoutManager.itemCount
 
         // If the total item count is zero and the previous isn't, assume the

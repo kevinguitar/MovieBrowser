@@ -1,8 +1,8 @@
 package com.kevingt.moviebrowser.util
 
-import android.arch.lifecycle.MutableLiveData
-import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kevingt.moviebrowser.BuildConfig
 import com.kevingt.moviebrowser.data.HttpResult
@@ -37,6 +37,6 @@ suspend fun <T> Deferred<Response<T>>.getData(): HttpResult<Response<T>> =
         HttpResult.Error(e)
     }
 
-fun <T: Any?> T.runOnDebug(block: () -> Unit) {
+fun <T : Any?> T.runOnDebug(block: () -> Unit) {
     if (BuildConfig.DEBUG) block()
 }

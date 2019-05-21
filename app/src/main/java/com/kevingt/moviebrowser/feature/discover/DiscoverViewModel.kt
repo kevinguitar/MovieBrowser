@@ -1,6 +1,6 @@
 package com.kevingt.moviebrowser.feature.discover
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.kevingt.moviebrowser.base.BaseViewModel
 import com.kevingt.moviebrowser.data.Genre
 import com.kevingt.moviebrowser.data.HttpResult

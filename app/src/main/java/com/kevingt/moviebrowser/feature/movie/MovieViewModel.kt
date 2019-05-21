@@ -1,6 +1,6 @@
 package com.kevingt.moviebrowser.feature.movie
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.kevingt.moviebrowser.base.BaseViewModel
 import com.kevingt.moviebrowser.data.HttpResult
 import com.kevingt.moviebrowser.data.Movie

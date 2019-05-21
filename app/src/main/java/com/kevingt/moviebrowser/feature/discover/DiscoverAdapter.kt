@@ -1,12 +1,11 @@
 package com.kevingt.moviebrowser.feature.discover
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.kevingt.moviebrowser.R
 import com.kevingt.moviebrowser.data.Movie
-import com.kevingt.moviebrowser.util.loadLargeImage
 import com.kevingt.moviebrowser.util.loadSmallImage
 import kotlinx.android.synthetic.main.item_discover.view.*
 
@@ -47,7 +46,7 @@ class DiscoverAdapter(private val listener: ItemListener) :
             tv_discover_title.text = data[position].title
             tv_discover_vote.text = context.getString(R.string.movie_vote_prefix, data[position].vote_average)
             tv_discover_date.text =
-                    context.getString(R.string.movie_release_date_prefix, data[position].release_date)
+                context.getString(R.string.movie_release_date_prefix, data[position].release_date)
             iv_discover_poster.loadSmallImage(data[position].poster_path)
             setOnClickListener { listener.onMovieClicked(data[position]) }
         }
