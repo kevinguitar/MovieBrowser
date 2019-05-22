@@ -62,7 +62,7 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
 
         rv_discover.layoutManager = LinearLayoutManager(context)
         rv_discover.adapter = adapter
-        //Get new data when loading view is visible
+        //Get new discoverData when loading view is visible
         rv_discover.addLoadMoreListener {
             if (!adapter.isLastPage) {
                 discoverMovies()
@@ -76,13 +76,13 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
         })
 
         viewModel.isLoading.observe(this, Observer {
-            if (!it!!) { //isLoading = false
+            if (!it) {  //isLoading = false
                 rv_discover.visibility = View.VISIBLE
                 lav_discover_loading.visibility = View.GONE
             }
         })
 
-        viewModel.isLastPage.observe(this, Observer { adapter.isLastPage = it!! })
+        viewModel.isLastPage.observe(this, Observer { adapter.isLastPage = it })
 
         viewModel.errorMessage.observe(this, Observer {
             alert {
@@ -91,7 +91,7 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
             }
         })
 
-        if (viewModel.page == 0) discoverMovies()
+        if (viewModel.hasNoData()) discoverMovies()
     }
 
     private fun discoverMovies() {

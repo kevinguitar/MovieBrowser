@@ -1,5 +1,6 @@
 package com.kevingt.moviebrowser.feature.movie
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevingt.moviebrowser.base.BaseViewModel
 import com.kevingt.moviebrowser.data.HttpResult
@@ -12,7 +13,10 @@ import kotlinx.coroutines.withContext
 
 class MovieViewModel : BaseViewModel() {
 
-    val movie = MutableLiveData<Movie>()
+    val movie: LiveData<Movie>
+        get() = _movie
+    private val _movie = MutableLiveData<Movie>()
+
     val errorMessage = MutableLiveData<String>()
 
     fun getMovie(id: Int) {
@@ -22,7 +26,7 @@ class MovieViewModel : BaseViewModel() {
                 when (result) {
                     is HttpResult.Success -> {
                         if (result.data.isSuccessful) {
-                            movie.value = result.data.body()
+                            _movie.value = result.data.body()
                         } else {    // Api error
                             errorMessage.value = Constant.API_ERROR_MESSAGE
                         }

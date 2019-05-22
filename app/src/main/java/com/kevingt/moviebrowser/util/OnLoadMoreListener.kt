@@ -9,13 +9,13 @@ abstract class OnLoadMoreListener : RecyclerView.OnScrollListener() {
         private const val VISIBLE_THRESHOLD = 1
     }
 
-    private var previousItemCount: Int = 0 // The total number of items in data after the last load
-    private var loading = true // True if we are still waiting for the last set of data to load.
+    private var previousItemCount: Int = 0 // The total number of items in discoverData after the last load
+    private var loading = true // True if we are still waiting for the last set of discoverData to load.
 
     protected abstract fun onLoading()
 
     // This happens many times a second during a scroll, so be wary of the code you place here.
-    // We are given a few useful parameters to help us work out if we need to load some more data,
+    // We are given a few useful parameters to help us work out if we need to load some more discoverData,
     // but first we check if we are waiting for the previous load to finish.
     override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
         if (dy <= 0) {
@@ -41,8 +41,8 @@ abstract class OnLoadMoreListener : RecyclerView.OnScrollListener() {
         }
 
         // If it isn’t currently loading, we check to see if we have breached
-        // the VISIBLE_THRESHOLD and need to reload more data.
-        // If we do need to reload some more data, we execute onLoadMore to fetch the data.
+        // the VISIBLE_THRESHOLD and need to reload more discoverData.
+        // If we do need to reload some more discoverData, we execute onLoadMore to fetch the discoverData.
         // threshold should reflect how many total columns there are too
         val lastItemPosition = itemCount - 1
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()

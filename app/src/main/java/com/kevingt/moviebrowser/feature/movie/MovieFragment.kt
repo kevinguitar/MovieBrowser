@@ -85,7 +85,7 @@ class MovieFragment : BaseFragment() {
             startActivity(
                 Intent(Intent.ACTION_SEARCH).apply {
                     setPackage(Constant.YOUTUBE_PACKAGE_NAME)
-                    putExtra("query", fragmentData.getParcelable<Movie>(ARG_MOVIE).title)
+                    putExtra("query", fragmentData.getParcelable<Movie>(ARG_MOVIE)?.title)
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 }
             )

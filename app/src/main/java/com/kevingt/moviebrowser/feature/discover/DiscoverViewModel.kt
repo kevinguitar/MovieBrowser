@@ -1,5 +1,6 @@
 package com.kevingt.moviebrowser.feature.discover
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevingt.moviebrowser.base.BaseViewModel
 import com.kevingt.moviebrowser.data.Genre
@@ -14,11 +15,16 @@ import kotlinx.coroutines.withContext
 
 class DiscoverViewModel : BaseViewModel() {
 
-    val discoverData = MutableLiveData<List<Movie>>().default(listOf())
+    val discoverData: LiveData<List<Movie>>
+        get() = _discoverData
+    private val _discoverData = MutableLiveData<List<Movie>>().default(listOf())
+
     val isLoading = MutableLiveData<Boolean>().default(true)
     val isLastPage = MutableLiveData<Boolean>().default(false)
     val errorMessage = MutableLiveData<String>()
-    var page = 0
+    private var page = 0
+
+    fun hasNoData() = page == 0
 
     fun discoverMovie(genre: Genre? = null, sort: Genre? = null) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -43,9 +49,9 @@ class DiscoverViewModel : BaseViewModel() {
                             if (page == body.total_pages) isLastPage.value = true
                             if (isLoading.value!!) isLoading.value = false
                             mutableListOf<Movie>().apply {
-                                addAll(discoverData.value!!)
+                                addAll(_discoverData.value!!)
                                 addAll(body.results)
-                            }.also { discoverData.postValue(it) }
+                            }.also { _discoverData.postValue(it) }
                         } else {    // Api error
                             errorMessage.value = Constant.API_ERROR_MESSAGE
                         }
@@ -69,7 +75,7 @@ class DiscoverViewModel : BaseViewModel() {
                             page = body.page
                             if (page == body.total_pages) isLastPage.value = true
                             if (isLoading.value!!) isLoading.value = false
-                            discoverData.postValue(body.results)
+                            _discoverData.postValue(body.results)
                         } else {    // Api error
                             errorMessage.value = Constant.API_ERROR_MESSAGE
                         }
