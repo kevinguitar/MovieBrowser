@@ -3,6 +3,7 @@ package com.kevingt.moviebrowser.feature.movie
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevingt.moviebrowser.base.BaseViewModel
+import com.kevingt.moviebrowser.data.ApiManager
 import com.kevingt.moviebrowser.data.HttpResult
 import com.kevingt.moviebrowser.data.Movie
 import com.kevingt.moviebrowser.util.Constant
@@ -11,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MovieViewModel : BaseViewModel() {
+class MovieViewModel(apiManager: ApiManager? = null) : BaseViewModel(apiManager) {
 
     val movie: LiveData<Movie>
         get() = _movie

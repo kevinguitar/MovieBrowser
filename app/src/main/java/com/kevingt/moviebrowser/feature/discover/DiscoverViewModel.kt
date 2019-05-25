@@ -3,6 +3,7 @@ package com.kevingt.moviebrowser.feature.discover
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kevingt.moviebrowser.base.BaseViewModel
+import com.kevingt.moviebrowser.data.ApiManager
 import com.kevingt.moviebrowser.data.Genre
 import com.kevingt.moviebrowser.data.HttpResult
 import com.kevingt.moviebrowser.data.Movie
@@ -13,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DiscoverViewModel : BaseViewModel() {
+class DiscoverViewModel(apiManager: ApiManager? = null) : BaseViewModel(apiManager) {
 
     val discoverData: LiveData<List<Movie>>
         get() = _discoverData
