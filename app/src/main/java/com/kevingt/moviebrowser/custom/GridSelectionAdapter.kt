@@ -23,10 +23,6 @@ class GridSelectionAdapter : RecyclerView.Adapter<GridSelectionAdapter.ViewHolde
         holder.itemView.apply {
             cp_grid_selection.text = data[position].name
             cp_grid_selection.isChecked = selection?.id == data[position].id
-            setOnClickListener {
-                selection = data[position]
-                notifyDataSetChanged()
-            }
         }
     }
 
@@ -36,5 +32,12 @@ class GridSelectionAdapter : RecyclerView.Adapter<GridSelectionAdapter.ViewHolde
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        init {
+            view.setOnClickListener {
+                selection = data[adapterPosition]
+                notifyDataSetChanged()
+            }
+        }
+    }
 }

@@ -48,11 +48,15 @@ class DiscoverAdapter(private val listener: ItemListener) :
             tv_discover_date.text =
                 context.getString(R.string.movie_release_date_prefix, data[position].release_date)
             iv_discover_poster.loadSmallImage(data[position].poster_path)
-            setOnClickListener { listener.onMovieClicked(data[position]) }
         }
     }
 
-    inner class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        init {
+            view.setOnClickListener { listener.onMovieClicked(data[adapterPosition]) }
+        }
+    }
+
     inner class LoadingViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     interface ItemListener {
