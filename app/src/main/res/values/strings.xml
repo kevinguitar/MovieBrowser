@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">MovieBrowser</string>
 
+    <!--Entry-->
+    <string name="entry_now_playing">現正熱映</string>
+    <string name="entry_upcoming">即將上映</string>
+    <string name="entry_search">搜尋</string>
+
     <!--Search-->
     <string name="search_title">找電影</string>
     <string name="search_hint">想找什麼電影？</string>
@@ -8,7 +13,6 @@
     <string name="search_genre">電影類型</string>
     <string name="search_sort">排序依照</string>
     <string name="search_button_search">搜尋</string>
-
 
     <!--Discover-->
     <string name="discover_title">搜尋結果</string>
