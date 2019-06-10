@@ -30,9 +30,7 @@ class DiscoverFragment : BaseFragment(), DiscoverAdapter.ItemListener {
                 putParcelable(ARG_SORT, sort)
             }
 
-            val fragment = DiscoverFragment()
-            fragment.arguments = args
-            return fragment
+            return DiscoverFragment().apply { arguments = args }
         }
     }
 

@@ -6,6 +6,12 @@
     <string name="entry_upcoming">即將上映</string>
     <string name="entry_search">搜尋</string>
 
+    <!--Now Playing-->
+    <string name="now_playing_title">現正熱映</string>
+
+    <!--Upcoming-->
+    <string name="upcoming_title">即將上映</string>
+
     <!--Search-->
     <string name="search_title">找電影</string>
     <string name="search_hint">想找什麼電影？</string>

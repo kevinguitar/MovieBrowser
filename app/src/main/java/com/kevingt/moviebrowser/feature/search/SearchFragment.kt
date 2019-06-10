@@ -16,9 +16,7 @@ class SearchFragment : BaseFragment() {
         fun newInstance(): SearchFragment {
             val args = Bundle()
 
-            val fragment = SearchFragment()
-            fragment.arguments = args
-            return fragment
+            return SearchFragment().apply { arguments = args }
         }
     }
 

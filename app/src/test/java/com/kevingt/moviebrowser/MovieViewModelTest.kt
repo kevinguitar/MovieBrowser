@@ -84,7 +84,7 @@ class MovieViewModelTest {
     @Test
     fun getMovieInternetErrorTest() {
         coEvery { apiManager.getMovie(any()) } returns
-                HttpResult.Error(Throwable())
+                HttpResult.NetworkError(Throwable())
 
         runBlocking {
             viewModel.getMovie(0)

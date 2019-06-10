@@ -32,11 +32,15 @@ fun RecyclerView.addLoadMoreListener(block: () -> Unit) {
 suspend fun <T> Deferred<Response<T>>.getData(): HttpResult<Response<T>> =
     try {
         val result = await()
-        HttpResult.Success(result)
+        if (result.isSuccessful) {
+            HttpResult.Success(result)
+        } else {
+            HttpResult.ApiError(result.message())
+        }
     } catch (e: Throwable) {
-        HttpResult.Error(e)
+        HttpResult.NetworkError(e)
     }
 
-fun <T : Any?> T.runOnDebug(block: () -> Unit) {
+inline fun <T : Any?> T.runOnDebug(block: () -> Unit) {
     if (BuildConfig.DEBUG) block()
 }

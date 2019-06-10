@@ -26,13 +26,12 @@ class MovieViewModel(apiManager: ApiManager? = null) : BaseViewModel(apiManager)
             withContext(Dispatchers.Main) {
                 when (result) {
                     is HttpResult.Success -> {
-                        if (result.data.isSuccessful) {
-                            _movie.value = result.data.body()
-                        } else {    // Api error
-                            errorMessage.value = Constant.API_ERROR_MESSAGE
-                        }
+                        _movie.value = result.data.body()
                     }
-                    is HttpResult.Error -> {
+                    is HttpResult.ApiError -> {
+                        errorMessage.value = Constant.API_ERROR_MESSAGE
+                    }
+                    is HttpResult.NetworkError -> {
                         errorMessage.value = Constant.NETWORK_ERROR_MESSAGE
                     }
                 }

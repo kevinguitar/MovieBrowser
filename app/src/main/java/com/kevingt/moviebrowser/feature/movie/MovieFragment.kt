@@ -25,9 +25,7 @@ class MovieFragment : BaseFragment() {
                 putParcelable(ARG_MOVIE, movie)
             }
 
-            val fragment = MovieFragment()
-            fragment.arguments = args
-            return fragment
+            return MovieFragment().apply { arguments = args }
         }
     }
 

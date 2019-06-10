@@ -44,20 +44,19 @@ class DiscoverViewModel(apiManager: ApiManager? = null) : BaseViewModel(apiManag
             withContext(Dispatchers.Main) {
                 when (result) {
                     is HttpResult.Success -> {
-                        if (result.data.isSuccessful) {
-                            val body = result.data.body()!!
-                            page = body.page
-                            if (page == body.total_pages) isLastPage.value = true
-                            if (isLoading.value!!) isLoading.value = false
-                            mutableListOf<Movie>().apply {
-                                addAll(_discoverData.value!!)
-                                addAll(body.results)
-                            }.also { _discoverData.postValue(it) }
-                        } else {    // Api error
-                            errorMessage.value = Constant.API_ERROR_MESSAGE
-                        }
+                        val body = result.data.body()!!
+                        page = body.page
+                        isLastPage.value = page == body.total_pages
+                        isLoading.value = false
+                        mutableListOf<Movie>().apply {
+                            addAll(_discoverData.value!!)
+                            addAll(body.results)
+                        }.also { _discoverData.postValue(it) }
                     }
-                    is HttpResult.Error -> {    // Network error
+                    is HttpResult.ApiError -> {
+                        errorMessage.value = Constant.API_ERROR_MESSAGE
+                    }
+                    is HttpResult.NetworkError -> {    // Network error
                         errorMessage.value = Constant.NETWORK_ERROR_MESSAGE
                     }
                 }
@@ -81,7 +80,7 @@ class DiscoverViewModel(apiManager: ApiManager? = null) : BaseViewModel(apiManag
                             errorMessage.value = Constant.API_ERROR_MESSAGE
                         }
                     }
-                    is HttpResult.Error -> {
+                    is HttpResult.NetworkError -> {
                         errorMessage.value = Constant.NETWORK_ERROR_MESSAGE
                     }
                 }

@@ -22,6 +22,12 @@ class ApiManager {
             .build()
     }
 
+    suspend fun getNowPlaying(page: Int): HttpResult<Response<Discover>> =
+        retrofit.value.create(MovieApi::class.java).getNowPlaying(page).getData()
+
+    suspend fun getUpcoming(page: Int): HttpResult<Response<Discover>> =
+        retrofit.value.create(MovieApi::class.java).getUpcoming(page).getData()
+
     suspend fun discoverMovie(genre: String, sort: String, page: Int): HttpResult<Response<Discover>> =
         retrofit.value.create(MovieApi::class.java).discoverMovie(genre, sort, page).getData()
 
