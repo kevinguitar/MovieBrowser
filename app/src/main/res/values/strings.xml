@@ -11,6 +11,7 @@
 
     <!--Upcoming-->
     <string name="upcoming_title">即將上映</string>
+    <string name="upcoming_date">上映日期：%s</string>
 
     <!--Search-->
     <string name="search_title">找電影</string>
