@@ -32,6 +32,7 @@ class NowPlayingFragment : BaseFragment(), NowPlayingItemFragment.ItemListener {
     private val adapter = lazy { NowPlayingAdapter(childFragmentManager) }
 
     private var listener: Listener? = null
+    private var vpPage = 0
 
     override fun getLayoutId(): Int = R.layout.fragment_now_playing
 
@@ -49,7 +50,7 @@ class NowPlayingFragment : BaseFragment(), NowPlayingItemFragment.ItemListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(ARG_PAGE_ITEM, vp_now_playing.currentItem)
+        outState.putInt(ARG_PAGE_ITEM, vpPage)
     }
 
     override fun initView(parent: View, savedInstanceState: Bundle?) {
@@ -66,6 +67,7 @@ class NowPlayingFragment : BaseFragment(), NowPlayingItemFragment.ItemListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
+                vpPage = position
                 if (position > adapter.value.data.size - 3 && !viewModel.isLastPage.value!!) {
                     viewModel.getNowPlaying()
                 }
