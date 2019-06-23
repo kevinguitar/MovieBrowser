@@ -1,51 +1,31 @@
 package com.kevingt.moviebrowser
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.kevingt.moviebrowser.data.ApiManager
 import com.kevingt.moviebrowser.data.HttpResult
 import com.kevingt.moviebrowser.data.Movie
 import com.kevingt.moviebrowser.feature.movie.MovieViewModel
 import com.kevingt.moviebrowser.util.Constant
-import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.*
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import okhttp3.ResponseBody
-import org.junit.After
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MovieViewModelTest {
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+class MovieViewModelTest : BaseUnitTest() {
 
     @MockK
     lateinit var apiManager: ApiManager
 
     lateinit var viewModel: MovieViewModel
 
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
-
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-        Dispatchers.setMain(mainThreadSurrogate)
+    override fun init() {
         viewModel = MovieViewModel(apiManager)
-    }
-
-    @After
-    fun cleanUp() {
-        Dispatchers.resetMain()
-        mainThreadSurrogate.close()
     }
 
     @Test
@@ -64,13 +44,7 @@ class MovieViewModelTest {
 
     @Test
     fun getMovieApiErrorTest() {
-        coEvery { apiManager.getMovie(any()) } returns
-                HttpResult.Success(
-                    Response.error(
-                        404,
-                        ResponseBody.create(null, "")
-                    )
-                )
+        coEvery { apiManager.getMovie(any()) } returns HttpResult.ApiError("")
 
         runBlocking {
             viewModel.getMovie(0)
